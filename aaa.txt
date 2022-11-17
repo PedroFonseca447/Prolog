@@ -1,0 +1,56 @@
+mulher(ana).
+mulher(eva).
+mulher(bia).
+mulher(lia).
+mulher(gal).
+mulher(clô).
+mulher(pietra).
+mulher(leticia).
+homem(ivo).
+homem(rai).
+homem(gil).
+homem(noé).
+homem(ary).
+homem(zé).
+homem(joel).
+
+familia(pietra,ana).
+familia(zé,ana).
+familia(ana,eva).
+familia(ivo,eva).
+familia(gil,rai).
+familia(gil,clô).
+familia(gil,ary).
+familia(eva,noé).
+familia(bia,rai).
+familia(bia,ary).
+familia(bia,clô).
+familia(ary,gal).
+familia(lia,gal).
+familia(rai,noé).
+familia(joel,leticia).
+familia(gal,leticia).
+
+mae(X,Y):- familia(X,Y),mulher(X).
+pai(X,Y):- familia(X,Y),homem(X).
+temFilho(X,Y):- pai(X,Y);mae(X,Y).
+irma(X,Y):- familia(Z,X),familia(Z,Y),mulher(X),X\==Y.
+irmao(X,Y):- familia(Z,X),familia(Z,Y),homem(X),X\==Y.
+filhos(X,Y):-familia(Y,X).
+avó(X,Y):- mulher(X) ,familia(X,Z) ,familia(Z,Y).
+avô(X,Y):- homem(X),
+   familia(X,Z),
+   familia(Z,Y).
+avo(X,Y):-familia(Z,Y),filhos(Z,X).
+irmaos(X,Y):- familia(Z,X), familia(Z,Y), not(X=Y).
+tio(X,Z):-irmao(X,Y),familia(Y,Z),homem(X).
+tia(X,Z):-irma(X,Y),familia(Y,Z),mulher(X).
+primo(Q1,Q2):-
+familia(P1,Q1),
+familia(P2,Q2),
+irmaos(P1,P2),homem(Q1).
+
+prima(Q1,Q2):-
+familia(P1,Q1),
+familia(P2,Q2),
+irmaos(P1,P2),mulher(Q1).
